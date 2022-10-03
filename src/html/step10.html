@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="../vendor/modus/modus.min.css" rel="stylesheet">
+  <script src="../vendor/modus/jquery.js"></script>
+  <script src="../vendor/modus/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div id="result">
+        <div class="container">
+          <div class="row justify-content-start" id="default_calculator">
+            <div class="col-3">
+              <div>Building height:</div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel1" value="option1" checked>
+                <label class="form-check-label" for="radioLevel1">
+                  1 story
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel2" value="option2">
+                <label class="form-check-label" for="radioLevel2">
+                  1.5 stories
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel3" value="option3">
+                <label class="form-check-label" for="radioLevel3">
+                  2 stories
+                </label>
+              </div>
+<!--               <div class="form-check">
+                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel4" value="option4">
+                <label class="form-check-label" for="radioLevel4">
+                  2.5 stories
+                </label>
+              </div> -->
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel5" value="option5">
+                <label class="form-check-label" for="radioLevel5">
+                  3 stories
+                </label>
+              </div>
+              <div>Multiplier: <span id="levelFactor"></span></div>
+            </div> <!--col-->
+
+            <div class="col-3">
+            <div>Location:</div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation1" value="option1" checked>
+              <label class="form-check-label" for="radioLocation1">
+                Seattle
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation2" value="option2">
+              <label class="form-check-label" for="radioLocation2">
+                Spokane
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation3" value="option3">
+              <label class="form-check-label" for="radioLocation3">
+                Portland
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation4" value="option4">
+              <label class="form-check-label" for="radioLocation4">
+                Boise
+              </label>
+            </div>
+            <div>Multiplier: <span id="locationFactor"></span></div>
+            </div> <!--col-->
+
+            <div class="col-auto">
+            <div>Category of Material and workmanship </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding1" value="option1" checked>
+              <label class="form-check-label" for="radioBuilding1">
+                Economy - just meet codes
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding2" value="option2">
+              <label class="form-check-label" for="radioBuilding2">
+                Average - average
+              </label>
+            </div>
+                  <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding3" value="option3">
+              <label class="form-check-label" for="radioBuilding3">
+                Customize - above average
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding4" value="option4">
+              <label class="form-check-label" for="radioBuilding4">
+                Luxury - extraordinary
+              </label>
+            </div> <!--radio2-->
+            <p>Multiplier: <span id="buildingFactor"></span></p>
+            </div> <!--col-->
+          </div> <!--row-->
+
+          <div class="row">
+            <div class="col-12 margin=0">
+              <p>Square foot cost data is: <span id="unit_price"></span> $/SF</p>
+              <!-- <p id="total">0</p> -->
+            </div>
+          </div>
+
+          <div class="row no-gutters">
+            <div class="col-auto">
+                Or use your square-foot cost:
+            </div>
+            <div class="col-2 align-self-start mt-n2">
+              <input class="form-control" v-model="unitPriceUp" id="user_unit_price">
+            </div>
+            <div class="col-auto mt-n1">
+              <button id="btn_user_input">calculate </button>
+            </div>
+            <div class="col-auto mt-n1" >
+              <button id="btn_default_input">cancel </button>
+            </div>
+          </div>
+
+          <div class="row mt-5">
+            <div class="col-12">
+              <h2>Size: <span id="building_size"></span> SF</h2>
+              <h2>Total Estimate: <span id="total_estimate"></span> $</h2>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div id="intro">
+      <div class="container">
+        <div class="row">
+          <h2>Welcome! This is a function to get $ from SF.</h2>
+          <h2>Please put in the basic info for your model.</h2>
+        </div>
+        <div class="row">
+          <button id="find_cost">Find the cost!</button> <span> </span>
+          <button id="cancel">Close</button>
+        </div>
+      </div>
+    </div>
+
+  <script>
+        function setArea(data) {
+          let num = Math.round(data*100)/100;
+          $("#area").text = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        };
+
+        function setUnitPrice(data) {
+          let num = Math.round(data*100)/100;
+          num = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          $("#unit_price").empty().append(num);
+          console.log("changed price");
+        }
+
+        var locationFactor = 1;
+        var buildingFactor = 1;
+        var levelFactor = 1;
+        var base_price = 290;
+        var base_size = 2;
+        var building_level = 1;
+        var building_size = 100;
+        var total_estimate;
+        var user_stepin = false;
+
+        function apply() {
+          sketchup.apply();
+        };
+
+        function cancel() {
+          sketchup.cancel();
+        };
+
+      $(document).ready(function() {
+        //sketchup.ready();
+        $("#result").hide();
+        $("#intro").show();
+        $("#find_cost").click(show_result);
+
+        set_level_factor(levelFactor);
+        set_LF(locationFactor);
+        set_BF(buildingFactor);
+        setup_level_listenor();
+        setup_location_listenor();
+        setup_building_listenor();
+        setup_userprice_listenor();
+        updateResult();
+      });
+
+/*     function updatePricebook(data) {
+      const info = JSON.parse(data);
+      var areafound = info.area
+      updateUnitPrice(areafound);
+    } */
+
+    function set_base_size(data) {
+      let num = Math.round(data*100)/100;
+      base_size = num;
+      updateResult();
+    }
+
+    function set_level_factor(data) {
+      levelFactor = data;
+      $("#levelFactor").empty().append(data);
+      updateResult();
+    }
+
+    function set_LF(data) {
+      $("#locationFactor").empty().append(data);
+      updateResult();
+      // console.log("hi");
+      // updateResult();
+    }
+
+    function set_BF(data) {
+      $("#buildingFactor").empty().append(data);
+      updateResult();
+      //console.log("hi");
+      // updateResult();
+    }
+
+    function setup_level_listenor() {
+      $checkbox11 = $("#radioLevel1"),
+      $checkbox12 = $("#radioLevel2"),
+      $checkbox13 = $("#radioLevel3"),
+/*       $checkbox14 = $("#radioLevel4"); */
+      $checkbox15 = $("#radioLevel5");
+
+      $checkbox11.change(function(e){
+        if ($checkbox11.prop("checked", true)) {
+          building_level = 1;
+          set_level_factor(1);
+          updateResult();
+        }
+      });
+      $checkbox12.change(function(e){
+        if ($checkbox12.prop("checked", true)) {
+          building_level = 1.5;
+          set_level_factor(0.99);
+          updateResult();
+        }
+      });
+      $checkbox13.change(function(e){
+        if ($checkbox13.prop("checked", true)) {
+          building_level = 2;
+          set_level_factor(0.97);
+          updateResult();
+        }
+      });
+/*       $checkbox14.change(function(e){
+        if ($checkbox14.prop("checked", true)) {
+          building_level = 2.5;
+        }
+      }); */
+      $checkbox15.change(function(e){
+        if ($checkbox15.prop("checked", true)) {
+          building_level = 3;
+          set_level_factor(0.95);
+          updateResult();
+        }
+      });
+    }
+
+    function setup_location_listenor() {
+      $checkbox1 = $("#radioLocation1"),
+      $checkbox2 = $("#radioLocation2"),
+      $checkbox3 = $("#radioLocation3"),
+      $checkbox4 = $("#radioLocation4");
+      $checkbox1.change(function(e){
+        if ($checkbox1.prop("checked", true)) {
+          locationFactor = 1;
+          set_LF(locationFactor);
+        }
+      });
+      $checkbox2.change(function(e){
+        if ($checkbox2.prop("checked", true)) {
+          locationFactor = 0.93;
+          set_LF(locationFactor);
+        }
+      });
+      $checkbox3.change(function(e){
+        if ($checkbox3.prop("checked", true)) {
+          locationFactor = 0.95;
+          set_LF(locationFactor);
+        }
+      });
+      $checkbox4.change(function(e){
+        if ($checkbox4.prop("checked", true)) {
+          locationFactor = 0.87;
+          set_LF(locationFactor);
+        }
+      });
+    }
+
+    function setup_building_listenor() {
+      $checkbox5 = $("#radioBuilding1");
+      $checkbox6 = $("#radioBuilding2");
+      $checkbox7 = $("#radioBuilding3");
+      $checkbox8 = $("#radioBuilding4");
+      $checkbox5.change( function(e){
+        if ($checkbox5.prop("checked", true)) {
+          buildingFactor = 1;
+          set_BF(buildingFactor);
+        }
+      });
+      $checkbox6.change( function(e){
+        if ($checkbox6.prop("checked", true)) {
+          buildingFactor = 1.15;
+          set_BF(buildingFactor);
+        } 
+      });
+      $checkbox7.change( function(e){
+        if ($checkbox7.prop("checked", true)) {
+          buildingFactor = 1.36;
+          set_BF(buildingFactor);
+        } 
+      });
+      $checkbox8.change( function(e){
+        if ($checkbox8.prop("checked", true)) {
+          buildingFactor = 1.67;
+          set_BF(buildingFactor);
+        } 
+      });
+    }
+
+    function setup_userprice_listenor() {
+      $("#btn_user_input").click(function(e){
+        user_stepin = true;
+        updateResult();
+      });
+      $("#btn_default_input").click(function(e){
+        user_stepin = false;
+        updateResult();
+      });
+    }
+
+    function show_result() {
+      sketchup.apply();
+      $("#result").show();
+      $("#intro").hide();
+    }
+
+    function updateResult() {
+      var unit_price;
+      if (!user_stepin) {
+        unit_price = base_price * locationFactor * buildingFactor;
+      } else {
+        unit_price = $("#user_unit_price").val();
+      }
+      //console.log(unit_price);
+
+      setUnitPrice(unit_price);
+
+      building_size = base_size * building_level;
+      num = Math.round(building_size*100)/100;
+      let area_formated = building_size.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      $("#building_size").empty().append(area_formated);
+
+      total_estimate = building_size * unit_price;
+      num = Math.round(total_estimate*100)/100;
+      cost_formated = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      $("#total_estimate").empty().append(cost_formated);
+    }
+
+    function formate_cost(data){
+      num = Math.round(data*100)/100;
+      cost_formated = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return cost_formated;
+    }
+  </script>
+</body>
+</html>
