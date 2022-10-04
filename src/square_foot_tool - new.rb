@@ -1,7 +1,7 @@
 require 'sketchup.rb'
 
 module Qisheng
-module CostInspector
+#module CostInspector
 module Controller
 
   def self.create_step(index, title, &block)
@@ -24,10 +24,10 @@ module Controller
 
   unless file_loaded?(__FILE__)
     cmd = self.create_step(12, 'footage_estimate tool') {
-      Qisheng::CostInspector::Step10.show_dialog
+      Qisheng.show_dialog
     }
     cmd2 = self.create_step(11, 'assembly_estimate tool') {
-      Qisheng::CostInspector::Step08.show_dialog
+      Qisheng.show_dialog
     }
     terminal = self.create_step(13, 'sketcup terminal') {
       SKETCHUP_CONSOLE.show
@@ -44,5 +44,5 @@ module Controller
   end
 
 end # UI_Controller
-end # CostInspector
+#end # CostInspector
 end # Qisheng
