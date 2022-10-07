@@ -7,7 +7,7 @@ module Qisheng
   #module CostInspector
   #module Step10
   
-  PLUGIN_ROOT = "D:/UW CM/CM 700/Sketchup/Git/QW/Cost-Guru/src"
+  #PLUGIN_ROOT = "D:/UW CM/CM 700/Sketchup/Git/QW/Cost-Guru/src"
   PLUGIN_ID = File.basename(__FILE__, ".rb")
   PLUGIN_DIR = File.dirname(__FILE__)
   EXTENSION = SketchupExtension.new(
@@ -19,7 +19,9 @@ module Qisheng
   menu.add_item(EXTENSION.name) {method_test}
 
   @areas = 0
+  @area_collection = []
   @count = 0
+
 
   def self.perimeter(face)
     total = 0
@@ -32,6 +34,7 @@ module Qisheng
 
   def self.scan
     @areas = 0
+    @area_collection.clear()
     cd_faces = Set[];
     mark_pts = [];
     model = Sketchup.active_model
@@ -41,7 +44,9 @@ module Qisheng
       when Sketchup::Face
         normal = plane_normal(entity.plane)
         p_length = perimeter(entity)
-        if normal.parallel?(Z_AXIS) && p_length>40*12
+        area = entity.area
+        if normal.parallel?(Z_AXIS) && p_length>40*12 &&
+          area > 50*12*12
           cd_faces.add(entity)
         end
         if wall?(entity)
@@ -57,33 +62,54 @@ module Qisheng
     plots = distill(cd_faces,mark_pts)
     plots = sel_base(plots)
     plots.each{|plot| register(plot)}
+    puts @area_collection
+    puts
   end
 
   def self.sel_base (faces)
+    sel_scopes = {}
     sel_faces = []
     faces.each {|entity|
       face_scope_cnd = Face_scope.new(entity)
-      if face_scope_cnd.z_scope[1] < 60
-        if sel_faces.empty?
-          sel_faces << entity
-        else
-          sel_faces.each { |face|
-            face_scope1 = Face_scope.new(face)
-            if !(face_scope1.overlaping?(face_scope_cnd))
-              sel_faces << entity
-            end
-          }
-        end
-      end
+      sel_scopes[face_scope_cnd] = entity
     }
+    scopes = sel_scopes.keys
+    if scopes.length >= 2
+      scopes.each {|scope1|
+        overlaped = false
+        overlap_cnd = []
+        overlap_cnd << scope1
+        scopes.delete(scope1)
+        scopes.each{|scope2|
+          if !scope2.non_overlaping?(scope1)
+            overlaped = true
+            overlap_cnd << scope2
+            scopes.delete(scope2)
+          end
+        }
+        if !overlaped
+          sel_faces << sel_scopes[scope1]
+        else
+          sel_faces << biggest(overlap_cnd,sel_scopes)
+        end
+      }
+    else
+      sel_faces << entity
+    end
     sel_faces
+  end
+
+  def self.biggest (scope_ary,scope_face_h)
+    scope_ary.sort! {|a,b|
+      scope_face_h[a].area - scope_face_h[b].area}
+    scope_face_h[scope_ary[-1]]
   end
 
   def self.wall? face
     normal = plane_normal(face.plane)
     if normal[2] == 0
       max_height = height(face.edges)
-      if max_height > 60 && max_height < 40*12
+      if max_height > 30 && max_height < 40*12
         return true
       end
     end
@@ -91,13 +117,13 @@ module Qisheng
   end
 
   def self.distill (entities,pts)
-    plots = Set[]
+    plots = []
     entities.each {|entity|
       edges = entity.edges
       edges.each {|edge|
         sample = edge.end.position
         if pts.include?(sample)
-          plots.add(entity)
+          plots << entity
           break
         end
       }
@@ -108,6 +134,7 @@ module Qisheng
   def self.register (entity)
     area = entity.area/144
     @areas += area
+    @area_collection << area
     @count += 1
 
     model = Sketchup.active_model
@@ -116,6 +143,14 @@ module Qisheng
     matl.color= "Red"
     entity.material = matl
     entity.back_material = matl
+    tag(entity)
+  end
+
+  def self.tag (face)
+    model = Sketchup.active_model
+    layers = model.layers
+    layer = layers.add("building base")
+    face.layer = layer
   end
 
   def self.plane_normal(plane)

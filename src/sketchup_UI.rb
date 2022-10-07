@@ -29,6 +29,9 @@ module Controller
     cmd2 = self.create_step(11, 'assembly_estimate tool') {
       Qisheng.show_dialog
     }
+    cmd3 = self.create_step(14, 'assembly_estimate tool') {
+      Qisheng.toggle_layers
+    }
     terminal = self.create_step(13, 'sketcup terminal') {
       SKETCHUP_CONSOLE.show
     }
@@ -37,6 +40,8 @@ module Controller
     toolbar.add_item(cmd)
     toolbar.add_separator
     toolbar.add_item(cmd2)
+    toolbar.add_separator
+    toolbar.add_item(cmd3)
     toolbar.add_separator
     toolbar.add_item(terminal)
     #toolbar.restore

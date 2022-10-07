@@ -6,146 +6,157 @@
   <script src="../vendor/modus/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <div id="result">
-        <div class="container">
-          <div class="row justify-content-start" id="default_calculator">
-            <div class="col-3">
-              <div>Building height:</div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel1" value="option1" checked>
-                <label class="form-check-label" for="radioLevel1">
-                  1 story
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel2" value="option2">
-                <label class="form-check-label" for="radioLevel2">
-                  1.5 stories
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel3" value="option3">
-                <label class="form-check-label" for="radioLevel3">
-                  2 stories
-                </label>
-              </div>
-<!--               <div class="form-check">
-                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel4" value="option4">
-                <label class="form-check-label" for="radioLevel4">
-                  2.5 stories
-                </label>
-              </div> -->
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel5" value="option5">
-                <label class="form-check-label" for="radioLevel5">
-                  3 stories
-                </label>
-              </div>
-              <div>Multiplier: <span id="levelFactor"></span></div>
-            </div> <!--col-->
-
-            <div class="col-3">
-            <div>Location:</div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation1" value="option1" checked>
-              <label class="form-check-label" for="radioLocation1">
-                Seattle
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation2" value="option2">
-              <label class="form-check-label" for="radioLocation2">
-                Spokane
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation3" value="option3">
-              <label class="form-check-label" for="radioLocation3">
-                Portland
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation4" value="option4">
-              <label class="form-check-label" for="radioLocation4">
-                Boise
-              </label>
-            </div>
-            <div>Multiplier: <span id="locationFactor"></span></div>
-            </div> <!--col-->
-
-            <div class="col-auto">
-            <div>Category of Material and workmanship </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding1" value="option1" checked>
-              <label class="form-check-label" for="radioBuilding1">
-                Economy - just meet codes
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding2" value="option2">
-              <label class="form-check-label" for="radioBuilding2">
-                Average - average
-              </label>
-            </div>
-                  <div class="form-check">
-              <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding3" value="option3">
-              <label class="form-check-label" for="radioBuilding3">
-                Customize - above average
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding4" value="option4">
-              <label class="form-check-label" for="radioBuilding4">
-                Luxury - extraordinary
-              </label>
-            </div> <!--radio2-->
-            <p>Multiplier: <span id="buildingFactor"></span></p>
-            </div> <!--col-->
-          </div> <!--row-->
-
-          <div class="row">
-            <div class="col-12 margin=0">
-              <p>Square foot cost data is: <span id="unit_price"></span> $/SF</p>
-              <!-- <p id="total">0</p> -->
-            </div>
-          </div>
-
-          <div class="row no-gutters">
-            <div class="col-auto">
-                Or use your square-foot cost:
-            </div>
-            <div class="col-2 align-self-start mt-n2">
-              <input class="form-control" v-model="unitPriceUp" id="user_unit_price">
-            </div>
-            <div class="col-auto mt-n1">
-              <button id="btn_user_input">calculate </button>
-            </div>
-            <div class="col-auto mt-n1" >
-              <button id="btn_default_input">cancel </button>
-            </div>
-          </div>
-
-          <div class="row mt-5">
-            <div class="col-12">
-              <h2>Size: <span id="building_size"></span> SF</h2>
-              <h2>Total Estimate: <span id="total_estimate"></span> $</h2>
-            </div>
-          </div>
-        </div>
-    </div>
-
-    <div id="intro">
-      <div class="container">
-        <div class="row">
-          <h2>Welcome! This is a function to get $ from SF.</h2>
-          <h2>Please put in the basic info for your model.</h2>
-        </div>
-        <div class="row">
-          <button id="find_cost">Find the cost!</button> <span> </span>
-          <button id="cancel">Close</button>
-        </div>
+  <div id="intro">
+    <div class="container">
+      <div class="row">
+        <h2>Welcome! To find the project cost,</h2>
+        <h2>please put in the basic info for your model.</h2>
       </div>
     </div>
+  </div>
+
+  <div id="asparagus">
+      <div class="container">
+        <div class="row justify-content-start" id="default_calculator">
+          <div class="col-3">
+            <div>Building height:</div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel1" value="option1" checked>
+              <label class="form-check-label" for="radioLevel1">
+                1 story
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel2" value="option2">
+              <label class="form-check-label" for="radioLevel2">
+                1.5 stories
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel3" value="option3">
+              <label class="form-check-label" for="radioLevel3">
+                2 stories
+              </label>
+            </div>
+<!--               <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel4" value="option4">
+              <label class="form-check-label" for="radioLevel4">
+                2.5 stories
+              </label>
+            </div> -->
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radioLevel" id="radioLevel5" value="option5">
+              <label class="form-check-label" for="radioLevel5">
+                3 stories
+              </label>
+            </div>
+            <div>Multiplier: <span id="levelFactor"></span></div>
+          </div> <!--col-->
+
+          <div class="col-3">
+          <div>Location:</div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation1" value="option1" checked>
+            <label class="form-check-label" for="radioLocation1">
+              Seattle
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation2" value="option2">
+            <label class="form-check-label" for="radioLocation2">
+              Spokane
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation3" value="option3">
+            <label class="form-check-label" for="radioLocation3">
+              Portland
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioLocation" id="radioLocation4" value="option4">
+            <label class="form-check-label" for="radioLocation4">
+              Boise
+            </label>
+          </div>
+          <div>Multiplier: <span id="locationFactor"></span></div>
+          </div> <!--col-->
+
+          <div class="col-auto">
+          <div>Category of Material and workmanship </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding1" value="option1" checked>
+            <label class="form-check-label" for="radioBuilding1">
+              Economy - just meet codes
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding2" value="option2">
+            <label class="form-check-label" for="radioBuilding2">
+              Average - average
+            </label>
+          </div>
+                <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding3" value="option3">
+            <label class="form-check-label" for="radioBuilding3">
+              Customize - above average
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="radioBuilding" id="radioBuilding4" value="option4">
+            <label class="form-check-label" for="radioBuilding4">
+              Luxury - extraordinary
+            </label>
+          </div> <!--radio2-->
+          <p>Multiplier: <span id="buildingFactor"></span></p>
+          </div> <!--col-->
+        </div> <!--row-->
+
+        <div class="row">
+          <div class="col-12 margin=0">
+            <p>Square foot cost data is: <span id="unit_price"></span> $/SF</p>
+            <!-- <p id="total">0</p> -->
+          </div>
+        </div>
+
+        <div class="row no-gutters">
+          <div class="col-auto">
+              Or use your square-foot cost:
+          </div>
+          <div class="col-2 align-self-start mt-n2">
+            <input class="form-control" v-model="unitPriceUp" id="user_unit_price">
+          </div>
+          <div class="col-auto mt-n1">
+            <button id="btn_user_input">apply </button>
+          </div>
+          <!-- <div class="col-auto mt-n1" >
+            <button id="btn_default_input">cancel </button>
+          </div> -->
+      </div>
+  </div>
+
+  <div id="intro">
+    <div class="container" id="go">
+      <div class="row">
+      <div class="col-12">
+      <button id="find_cost">Find the cost!</button> <span> </span>
+      <button id="cancel">Close</button>
+      </div>
+    </div>
+    </div>
+  </div>
+
+    <div id ="result">
+      <div class="container">
+        <div class="row mt-5">
+          <div class="col-12">
+            <h2>Size: <span id="building_size"></span> SF</h2>
+            <h2>Total Estimate: <span id="total_estimate"></span> $</h2>
+          </div>
+          </div>
+        </div>
+    </div>
+  </div>
 
   <script>
         function setArea(data) {
@@ -183,6 +194,8 @@
         $("#result").hide();
         $("#intro").show();
         $("#find_cost").click(show_result);
+        $("#go").css("magin",  "2em 0em 0em 0em");
+        $("#asparagus").css("magin",  "0em 2em 0em 0em");
 
         set_level_factor(levelFactor);
         set_LF(locationFactor);
@@ -350,7 +363,7 @@
     function updateResult() {
       var unit_price;
       if (!user_stepin) {
-        unit_price = base_price * locationFactor * buildingFactor;
+        unit_price = base_price * locationFactor * buildingFactor * levelFactor;
       } else {
         unit_price = $("#user_unit_price").val();
       }
