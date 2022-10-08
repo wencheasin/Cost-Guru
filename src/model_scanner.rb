@@ -6,22 +6,10 @@ require "extensions.rb"
 module Qisheng
   #module CostInspector
   #module Step10
-  
-  #PLUGIN_ROOT = "D:/UW CM/CM 700/Sketchup/Git/QW/Cost-Guru/src"
-  PLUGIN_ID = File.basename(__FILE__, ".rb")
-  PLUGIN_DIR = File.dirname(__FILE__)
-  EXTENSION = SketchupExtension.new(
-    "Cost Guru",
-    File.join(PLUGIN_DIR, PLUGIN_ID)
-  )
-  Sketchup.register_extension(EXTENSION, true)
-  menu = UI.menu("Plugins")
-  menu.add_item(EXTENSION.name) {method_test}
 
   @areas = 0
   @area_collection = []
   @count = 0
-
 
   def self.perimeter(face)
     total = 0
@@ -75,16 +63,18 @@ module Qisheng
     }
     scopes = sel_scopes.keys
     if scopes.length >= 2
-      scopes.each {|scope1|
+      while scopes.length >= 2
+        scope1 = scopes[0]
         overlaped = false
         overlap_cnd = []
         overlap_cnd << scope1
         scopes.delete(scope1)
-        scopes.each{|scope2|
-          if !scope2.non_overlaping?(scope1)
+        scopes_itt = Array.new(scopes)
+        scopes_itt.each{|scope|
+          if !(scope.non_overlaping?(scope1))
             overlaped = true
-            overlap_cnd << scope2
-            scopes.delete(scope2)
+            overlap_cnd << scope
+            scopes.delete(scope)
           end
         }
         if !overlaped
@@ -92,9 +82,9 @@ module Qisheng
         else
           sel_faces << biggest(overlap_cnd,sel_scopes)
         end
-      }
+      end
     else
-      sel_faces << entity
+      sel_faces << faces[0]
     end
     sel_faces
   end

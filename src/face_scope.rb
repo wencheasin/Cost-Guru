@@ -29,16 +29,6 @@ class Face_scope
         scope
     end
 
-    # def non_overlaping? (other)
-    #     (@x_scope[0] <= other.x_scope[0] &&
-    #      @x_scope[1] >= other.x_scope[1] &&
-    #      @y_scope[0] <= other.y_scope[0] &&
-    #      @y_scope[1] >= other.y_scope[1]) ||
-    #     (@x_scope[0] > other.x_scope[0] &&
-    #      @x_scope[1] < other.x_scope[1] &&
-    #      @y_scope[0] > other.y_scope[0] &&
-    #      @y_scope[1] < other.y_scope[1])
-    # end
     def non_overlaping? (other)
         (self.x_scope[0] >= other.x_scope[1] ||
          self.x_scope[1] <= other.x_scope[0] ||
@@ -47,9 +37,9 @@ class Face_scope
     end
 
     def eql? (other)
-        this.x_scope == other.x_scope &&
-        this.y_scope == other.y_scope &&
-        this.z_scope == other.z_scope
+        self.x_scope == other.x_scope &&
+        self.y_scope == other.y_scope &&
+        self.z_scope == other.z_scope
     end
 
     def hash
