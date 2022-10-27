@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="../vendor/modus/modus.min.css" rel="stylesheet">
+  <link href="../vendor/modus/assembly_estimate.css" rel="stylesheet">
+  <script src="../vendor/modus/jquery.js"></script>
+  <script src="../vendor/modus/bootstrap.bundle.min.js"></script>
+  <script src="assembly_cost.js"></script>
+</head>
+<body>
+  <div class="intro">
+      <div>
+        <h1>Welcome! Let's find the assembly cost.</h1>
+        <strong>Please specify the systems in this project.</strong>
+      </div>
+  </div>
+  <div class="intro">
+    <span class="sum"></span>
+  </div>
+  <div class="tab">
+    <span class="tablinks active" onclick="openAll(event, 'all')" id="summary">Summary</span>
+    <span class="tablinks" onclick="openDiv(event, 'fd')">Foundation</span>
+    <span class="tablinks" onclick="openDiv(event, 'f_')">Substructure</span>
+    <span class="tablinks" onclick="openDiv(event, 'fr')">Floor</span>
+    <span class="tablinks" onclick="openDiv(event, 'ext_wall')">Ext Wall</span>
+    <span class="tablinks" onclick="openDiv(event, 'windows')">Windows</span>
+    <span class="tablinks" onclick="openDiv(event, 'door')">Door</span>
+    <span class="tablinks" onclick="openDiv(event, 'roof')">Roof</span>
+    <span class="tablinks" onclick="openDiv(event, 'roof finish')">Roof Finish</span>
+    <span class="tablinks" onclick="openDiv(event, 'int_wall')">Int Wall</div>
+  </div>
+
+  <div class="division intro" id="fd">
+    <article class="container selections">
+      <section class="row justify-content-start" style="padding: 1em">
+        <h1 class="col-4 margin=0" style="padding:0em">Foundation</h1>
+        <div class="col-4 margin=0 form-check">
+          <div>
+          <input class="form-check-input" type="checkbox" name="fd_s" value="bs_1608">
+          <label class="form-check-label" for="fd_s"> 8” x 16” Stem Wall Footing </label>
+          </div>
+          <div>
+          <input class="form-check-input" type="checkbox" name="fd_s" value="bs_2410">
+          <label class="form-check-label" for="fd_s"> 10” x 24” Stem Wall Footing </label>
+          </div>
+        </div>
+        <div class="col-4 margin=0 form-check">
+          <div>
+          <input class="form-check-input" type="checkbox" name="fd_f" value="bf_2424">
+          <label class="form-check-label" for="radioLevel1"> 2'x2' Spread Footing </label>
+          </div>
+          <div>
+          <input class="form-check-input" type="checkbox" name="fd_f" value="bf_3636">
+          <label class="form-check-label" for="radioLevel1"> 3'x3' Spread Footing </label>
+          </div>
+        </div>
+      </section>
+      <section class="assembly" id="bs_1608">
+        <div class="image_col col-3">
+          <div class="image_col_item" id="assembly_name">Stem Wall 8” x 16”</div>
+          <img class="image_col_item" src="../images/assemblies/bs_1608.png" alt="building stem wall in size of 8x16">
+        </div>
+        <div class="discription">
+          <div>
+            <div>Assumption:<br>
+                  Wall footings are set along the perimeter of the SFR.
+            </div>
+          </div>
+          <div>
+            <div class="price_qto">Unit price and Quantity:</div>
+            <div class="price_qto_item">
+              <span class="unit_price"> Unit Price </span>
+              <span>
+                <span> = </span>
+                <input class="unit_price" style="text-align: end;" id="bs_1608_p" value="31.62">
+                <span>$</span>
+              </span>
+            </div>
+            <div class="price_qto_item">
+            <span class="model_quantity"> Footprint perimeter </span>
+            <span>
+              <span> = </span>
+              <input class="footprint_perimeter" style="text-align: end;" id="bs_1608_input">
+              <label for="qto">ft</label>
+            </span>
+            </div>
+          </div>
+        </div> <!--end of description-->
+      </section>
+      <section class="assembly" id="bs_2410">
+        <div class="image_col col-3">
+          <div class="image_col_item" id="assembly_name">Stem Wall 10” x 24”</div>
+          <img class="image_col_item" src="../images/assemblies/bs_2410.png" alt="building stem wall">
+        </div>
+        <div class="discription">
+          <div>
+            <div>Assumption:<br>
+                  Wall footings are set along the perimeter of the SFR.
+            </div>
+          </div>
+          <div>
+            <div class="price_qto">Unit price and Quantity:</div>
+            <div class="price_qto_item">
+              <span class="unit_price"> Unit Price </span>
+              <span>
+                <span> = </span>
+                <input class="unit_price" style="text-align: end;" id="bs_2410_p" value="41.82">
+                <span>$</span>
+              </span>
+            </div>
+            <div class="price_qto_item">
+              <span class="model_quantity"> Footprint perimeter </span>
+              <span>
+                <span> = </span>
+                <input class="footprint_perimeter" style="text-align: end;" id="bs_2410_input">
+                <label for="qto">ft</label>
+              </span>
+            </div>
+          </div>
+        </div> <!--end of description-->
+      </section>
+      <section class="assembly" id="bf_2424">
+        <div class="image_col col-3">
+          <div class="image_col_item" id="assembly_name">2’x2’ Spread Footing</div>
+          <img class="image_col_item" src="../images/assemblies/bf_24.png" alt="building stem wall">
+        </div>
+        <div class="discription">
+          <div>
+            <div>Assumption:<br>
+            Emperial data shows 2 footings per SFR.
+            </div>
+          </div>
+          <div>
+            <div class="price_qto">Unit price and Quantity:</div>
+            <div class="price_qto_item">
+              <span class="unit_price"> Unit Price </span>
+              <span>
+                <span> = </span>
+                <input class="unit_price" style="text-align: end;" id="bf_2424_p" value="47.53">
+                <span>$</span>
+              </span>
+            </div>
+            <div class="price_qto_item">
+              <span class="model_quantity"> Footing number </span>
+              <span>
+                <span> = </span>
+                <input class="footing_number" style="text-align: end;" id="bf_2424_input">
+                <label for="qto">#</label>
+              </span>
+            </div>
+          </div>
+        </div> <!--end of description-->
+      </section>
+      <section class="assembly" id="bf_3636">
+        <div class="image_col col-3">
+          <div class="image_col_item" id="assembly_name">3’x3’ Spread Footing</div>
+          <img class="image_col_item" src="../images/assemblies/bf_36.png" alt="building stem wall">
+        </div>
+        <div class="discription">
+          <div>
+            <div>Assumption:<br>
+            Emperial data shows 2 footings per SFR.
+            </div>
+          </div>
+          <div>
+            <div class="price_qto">Unit price and Quantity:</div>
+            <div class="price_qto_item">
+              <span class="unit_price"> Unit Price </span>
+              <span>
+                <span> = </span>
+                <input class="unit_price" style="text-align: end;" id="bf_3636_p" value="106.94">
+                <span>$</span>
+              </span>
+            </div>
+            <div class="price_qto_item">
+              <span class="model_quantity"> Footing number </span>
+              <span>
+                <span> = </span>
+                <input class="footing_number" style="text-align: end;" id="bf_3636_input">
+                <label for="qto">#</label>
+              </span>
+            </div>
+          </div>
+        </div> <!--end of description-->
+      </section>
+    </article>
+  </div>
+
+  <div class="division intro" id="f_">
+    <article class="container selections">
+      <section class="row justify-content-start" style="padding: 1em">
+        <h1 class="col-4 margin=0" style="padding:0em">Substructure</h1>
+        <div class="col-4 margin=0 form-check">
+          <div>
+          <input class="form-check-input" type="checkbox" name="f_sog" value="f_sog">
+          <label class="form-check-label"> 4" Slab On Grade </label>
+          </div>
+          <div>
+          <input class="form-check-input" type="checkbox" name="f_sw" value="f_sw">
+          <label class="form-check-label"> 8" Concrete Wall </label>
+          </div>
+        </div>
+      </section>
+      <section class="assembly" id="f_sog">
+        <div class="image_col col-3">
+          <div class="image_col_item" id="assembly_name">4" Slab On Grade</div>
+          <img class="image_col_item" src="../images/assemblies/f_sog.JPG" alt="slab on grade">
+        </div>
+        <div class="discription">
+          <div>
+            <div>Assumption:<br>
+              Slab thickness is 4”, with sublayers of 4” gravel
+            </div>
+          </div>
+          <div>
+            <div class="price_qto">Unit price and Quantity:</div>
+            <div class="price_qto_item">
+              <span class="unit_price"> Unit Price </span>
+              <span>
+                <span> = </span>
+                <input class="unit_price" style="text-align: end;" id="f_sog_p" value="3.98">
+                <span>&nbsp $</span>
+              </span>
+            </div>
+            <div class="price_qto_item">
+              <span class="model_quantity"> Footprint area </span>
+              <span>
+                <span> = </span>
+                <input class="footprint_area" style="text-align: end;" id="f_sog_input">
+                <label for="qto">SF</label>
+              </span>
+            </div>
+          </div>
+        </div> <!--end of description-->
+      </section>
+      <section class="assembly" id="f_sw">
+        <div class="image_col col-3">
+          <div class="image_col_item" id="assembly_name">8" Concrete Wall</div>
+          <img class="image_col_item" src="../images/assemblies/f_sw.JPG" alt="concrete foundation wall 8in thick">
+        </div>
+        <div class="discription">
+          <div>Assumption:
+            8” concrete walls, 1' tall, set along the perimeter of the building’s footprint.
+          </div>
+          <div>
+            <div class="price_qto">Unit price and Quantity:</div>
+            <div class="price_qto_item">
+              <span class="unit_price"> Unit Price </span>
+              <span>
+                <span> = </span>
+                <input class="unit_price" style="text-align: end;" id="f_sw_p" value="22.59">
+                <span>$</span>
+              </span>
+            </div>
+            <p class="price_qto_item">
+              <label class="model_quantity" id="fd_perimeter"> Footprint perimeter </label>
+              <span>
+                <span> = </span>
+                <input class="footprint_perimeter" style="text-align: end;"><span class="qto_unit">ft</span>
+              </span>
+            </p>
+            <p class="price_qto_item">
+              <span>X</span>
+            </p>
+            <p class="price_qto_item">
+              <label class="model_quantity" id="fd-height-label"> Foundation Height </label>
+              <span>
+                <span> = </span>
+                <input style="text-align: end;" value="1" class="model_quantity" id="fd_height"><span class="qto_unit">ft</span>
+              </span>
+            </p>
+            <p class="price_qto_item">
+              <span>=</span>
+              <span>
+                <input style="text-align: end;" id="f_sw_input"><span class="qto_unit">sf</span>
+              </span>
+            </p>
+          </div>
+        </div> <!--end of description-->
+      </section>
+    </article>
+  </div>
+
+  <div class="division intro" id="fr">
+    <article class="container selections">
+      <section class="row justify-content-start" style="padding: 1em">
+        <h1 class="col-4 margin=0" style="padding:0em">Floor</h1>
+        <div class="col-4 margin=0 form-check">
+          <div>
+            <input class="form-check-input" type="checkbox" name="fr_l" value="fr_l">
+            <label class="form-check-label">2"x12" Lumber</label>
+          </div>
+          <div>
+            <input class="form-check-input" type="checkbox" name="fr_tji" value="fr_tji">
+            <label class="form-check-label">12" TJI</label>
+          </div>
+        </div>
+      </section>
+      <section class="assembly" id="fr_l">
+        <div class="image_col col-3">
+          <div class="image_col_item" id="assembly_name">2"x12" Lumber</div>
+          <img class="image_col_item" src="../images/assemblies/fr_l.JPG" alt="floor lumber 2x12">
+        </div>
+        <div class="discription">
+          <div>
+            <div>Assumption:<br>
+              Lumber spacing: 16” O.C.<br>
+              Bridging 1”x3”, 6’ O.C.<br>
+              Girder built up from two 2x12<br>
+              Sheathing Plywood 5/8” CDX<br>
+              Firring 1”x3”, 16” O.C.<br>
+              Metal Joist Hangers
+            </div>
+          </div>
+          <div>
+            <div class="price_qto">Unit price and Quantity:</div>
+            <div class="price_qto_item">
+              <span class="unit_price"> Unit Price </span>
+              <span>
+                <span> = </span>
+                <input class="unit_price" style="text-align: end;" id="fr_l_p" value="9.22">
+                <span>&nbsp $</span>
+              </span>
+            </div>
+            <p class="price_qto_item">
+              <label class="model_quantity"> Footprint area </label>
+              <span>
+                <span> = </span>
+                <input class="footprint_area" style="text-align: end;" id="fr_base_input">
+                <label for="qto">SF</label>
+              </span>
+            </p>
+            <p class="price_qto_item">
+              <span>X</span>
+            </p>
+            <p class="price_qto_item">
+              <label class="model_quantity" id="fr-level-label"> Floor Levels </label>
+              <span>
+                <span> = </span>
+                <input style="text-align: end;" value="1" class="model_quantity" id="fr_l_level"><span class="qto_unit">lv</span>
+              </span>
+            </p>
+            <p class="price_qto_item">
+              <span>=</span>
+              <span>
+                <input style="text-align: end;" id="fr_l_input"><span class="qto_unit">sf</span>
+              </span>
+            </p>
+          </div>
+        </div> <!--end of description-->
+      </section>
+      <section class="assembly" id="fr_tji">
+        <div class="image_col col-3">
+          <div class="image_col_item" id="assembly_name">12" TJI</div>
+          <img class="image_col_item" src="../images/assemblies/fr_tji.JPG" alt="floor tji">
+        </div>
+        <div class="discription">
+          <div>Assumption:<br>
+            TJI spacing: 16” O.C.<br>
+            Bridging 1”x3”, 6’ O.C.<br>
+            Girder built up from two 2x12<br>
+            Sheathing Plywood 5/8” CDX<br>
+            Firring 1”x3”, 16” O.C.<br>
+            Metal Joist Hangers
+          </div>
+          <div>
+            <div class="price_qto">Unit price and Quantity:</div>
+            <div class="price_qto_item">
+              <span class="unit_price"> Unit Price </span>
+              <span>
+                <span> = </span>
+                <input class="unit_price" style="text-align: end;" id="fr_tji_p" value="10.02">
+                <span>&nbsp $</span>
+              </span>
+            </div>
+            <p class="price_qto_item">
+              <label class="model_quantity"> Footprint area </label>
+              <span>
+                <span> = </span>
+                <input class="footprint_area" style="text-align: end;" id="fr_base_input">
+                <label for="qto">SF</label>
+              </span>
+            </p>
+            <p class="price_qto_item">
+              <span>X</span>
+            </p>
+            <p class="price_qto_item">
+              <label class="model_quantity" id="fr-level-label"> Floor Levels </label>
+              <span>
+                <span> = </span>
+                <input style="text-align: end;" value="1" class="model_quantity" id="fr_tji_level"><span class="qto_unit">lv</span>
+              </span>
+            </p>
+            <p class="price_qto_item">
+              <span>=</span>
+              <span>
+                <input style="text-align: end;" id="fr_tji_input"><span class="qto_unit">sf</span>
+              </span>
+            </p>
+          </div>
+        </div> <!--end of description-->
+      </section>
+    </article>
+  </div>
+
+  <div class="intro calc_ctrl">
+    <div class="container" id="go">
+      <button id="find_cost">Find the cost!</button> <span> </span>
+      <button id="cancel">Close</button>
+    </div>
+  </div>
+
+  <!-- <div id ="result">
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-12">
+          <h2>Cost of this division: <span id="d1_cost"></span> $</h2>
+          <h2>Total Estimate: <span id="total_estimate"></span> $</h2>
+        </div>
+        </div>
+      </div>
+  </div> -->
+
+</body>
+</html>

@@ -10,6 +10,7 @@ module Qisheng
   @areas = 0
   @area_collection = []
   @count = 0
+  @perimeter_total = 0
 
   def self.perimeter(face)
     total = 0
@@ -22,6 +23,7 @@ module Qisheng
 
   def self.scan
     @areas = 0
+    @perimeter_total = 0
     @area_collection.clear()
     cd_faces = Set[];
     mark_pts = [];
@@ -62,18 +64,26 @@ module Qisheng
       sel_scopes[face_scope_cnd] = entity
     }
     scopes = sel_scopes.keys
+    scopes.sort! {|a,b|
+      sel_scopes[b].area - sel_scopes[a].area}
+    # puts scopes.length
     if scopes.length >= 2
       while scopes.length >= 2
         scope1 = scopes[0]
         overlaped = false
         overlap_cnd = []
         overlap_cnd << scope1
+        # puts "scope1"
+        # puts sel_scopes[scope1].area/144
         scopes.delete(scope1)
         scopes_itt = Array.new(scopes)
         scopes_itt.each{|scope|
+          # puts scope.non_overlaping?(scope1).to_s
           if !(scope.non_overlaping?(scope1))
             overlaped = true
             overlap_cnd << scope
+            # puts "overlapping"
+            # puts sel_scopes[scope].area/144
             scopes.delete(scope)
           end
         }
@@ -82,6 +92,7 @@ module Qisheng
         else
           sel_faces << biggest(overlap_cnd,sel_scopes)
         end
+        # puts scopes.length
       end
     else
       sel_faces << faces[0]
@@ -126,6 +137,7 @@ module Qisheng
     @areas += area
     @area_collection << area
     @count += 1
+    @perimeter_total += perimeter(entity)/12
 
     model = Sketchup.active_model
     materials = model.materials

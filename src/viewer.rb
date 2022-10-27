@@ -1,5 +1,6 @@
 module Qisheng
-    @layer_temp
+    model = Sketchup.active_model
+    @layer_temp = model.active_layer
     @status = true
 
     def self.toggle_layers
@@ -12,7 +13,6 @@ module Qisheng
 
     def self.iso
         model = Sketchup.active_model
-        @layer_temp = model.active_layer
         layers = model.layers
         model.active_layer = layers["building base"]
         layers.each {|layer|

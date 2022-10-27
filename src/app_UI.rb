@@ -5,8 +5,11 @@ module Qisheng
 #module CostInspector
 #module Step10
 PLUGIN_ROOT = "D:/UW CM/CM 700/Sketchup/Git/QW/Cost-Guru/src"
-  def self.create_dialog
-    html_file = File.join(__dir__, 'html', 'step10.html')
+
+
+  def self.create_dialog(num)
+    name = "step" + num.to_s + ".html"
+    html_file = File.join(__dir__, 'html', name)
     options = {
       :dialog_title => "Assembly Cost Estimate",
       :preferences_key => "Qisheng.htmldialog.cost_inspector",
@@ -18,10 +21,10 @@ PLUGIN_ROOT = "D:/UW CM/CM 700/Sketchup/Git/QW/Cost-Guru/src"
     dialog
   end
 
-  def self.show_dialog
-    @dialog = self.create_dialog
+  def self.show_dialog(num)
+    @dialog = self.create_dialog(num)
     @dialog.add_action_callback("ready") { |action_context|
-      self.update_dialog (-1)
+      self.update_dialog
     }
 
     @dialog.add_action_callback("cancel") { |action_context|
@@ -33,6 +36,17 @@ PLUGIN_ROOT = "D:/UW CM/CM 700/Sketchup/Git/QW/Cost-Guru/src"
       #self.update_material(value, value2)
       self.update_dialog
     }
+
+    @dialog.add_action_callback("apply_asb") { |action_context|
+      #self.update_material(value, value2)
+      self.update_dialog_assembly
+    }
+
+    @dialog.add_action_callback("log") { |action_context, data|
+      #self.update_material(value, value2)
+      puts data
+    }
+
     @dialog.show
   end
 
@@ -43,6 +57,13 @@ PLUGIN_ROOT = "D:/UW CM/CM 700/Sketchup/Git/QW/Cost-Guru/src"
     @dialog.execute_script("set_base_size(#{@areas})")
   end
 
+  def self.update_dialog_assembly
+    #return if @dialog.nil?
+    self.scan
+    @dialog.execute_script("setBaseSize(#{@areas})")
+    @dialog.execute_script("setPerimeter(#{@perimeter_total})")
+    puts "result sent"
+  end
 
   file_loaded(__FILE__)
 

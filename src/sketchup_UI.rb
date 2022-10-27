@@ -23,17 +23,17 @@ module Controller
   end
 
   unless file_loaded?(__FILE__)
-    cmd = self.create_step(12, 'footage_estimate tool') {
-      Qisheng.show_dialog
+    cmd = self.create_step(10, 'footage_estimate tool') {
+      Qisheng.show_dialog(10)
     }
-    cmd2 = self.create_step(11, 'assembly_estimate tool') {
-      Qisheng.show_dialog
-    }
-    cmd3 = self.create_step(14, 'assembly_estimate tool') {
+    cmd2 = self.create_step(12, 'assembly_estimate tool') {
       Qisheng.toggle_layers
     }
+    cmd3 = self.create_step(11, 'assembly_estimate tool') {
+      Qisheng.show_dialog(11)
+    }
     terminal = self.create_step(13, 'sketcup terminal') {
-      SKETCHUP_CONSOLE.show
+      SKETCHUP_CONSOLE.show 
     }
 
     toolbar = UI::Toolbar.new('Cost Guru')
